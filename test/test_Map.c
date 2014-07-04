@@ -40,21 +40,21 @@ void test_mapStore_given_Ali_should_add_it_to_map()
 
 }
 
-void xtest_mapStore_given_Ali_but_Ali_is_in_the_Map_should_throw_ERR_SAME_ELEMENT_exception()
+void test_mapStore_given_Ali_but_Ali_is_in_the_Map_should_throw_ERR_SAME_ELEMENT_exception()
 {
 	CEXCEPTION_T e;
 	
 	Person *person = personNew("Ali",25,70.3);
 	Map *map = mapNew(5);
-	
-	map->bucket[3]=person;
+	List *list = listNew(person,NULL);
+	map->bucket[3]=list;
 	hash_ExpectAndReturn(person,3);
 	comparePerson_ExpectAndReturn(person,person,1);
 	
 	Try
 	{
 		mapStore(map,person,comparePerson,hash);
-		TEST_FAIL_MESSAGE("Expect ERR_SAME_ELEMENT_exception to be thrown.");
+		TEST_FAIL_MESSAGE("Expect ERR_SAME_ELEMENT exception to be thrown.");
 	}
 	Catch(e)
 	{
