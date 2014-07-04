@@ -46,6 +46,8 @@ void test_mapStore_given_Ali_but_Ali_is_in_the_Map_should_throw_ERR_SAME_ELEMENT
 	
 	Person *person = personNew("Ali",25,70.3);
 	Map *map = mapNew(5);
+	
+	//map->bucket[3]=person  <<<<<<<<<<< this testing is wrong , because the bucket should contain the list rather that the person directly.
 	List *list = listNew(person,NULL);
 	map->bucket[3]=list;
 	hash_ExpectAndReturn(person,3);
