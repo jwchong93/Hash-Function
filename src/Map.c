@@ -62,6 +62,26 @@ void *mapRemove(Map *map, void *element, int (*compare)(void*,void*),unsigned in
 		tempList=tempList->next;
 
 	}
+	return elem;
+}
+
+void *mapFind(Map *map, void *element, int (*compare)(void*,void*),unsigned int (*hash)(void*))
+{
+	int location;
+	location = hash(element);
+	void *elem=NULL;
+	List *tempList=(List*)map->bucket[location];
+	while(tempList!=NULL)
+	{
+		
+		if(compare(tempList->data,element)==1)
+		{
+			elem = tempList->data;
+			break;
+		}
+		tempList=tempList->next;
+
+	}
 	// else
 	// {
 		// elem=NULL;
