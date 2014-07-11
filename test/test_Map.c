@@ -83,3 +83,68 @@ void test_mapStore_given_Zorro_should_add_it_to_map_when_ali_was_inside_the_map_
 	TEST_ASSERT_EQUAL_Person(person,getPersonFromBucket(((List*)map->bucket[3])->next));
 
 }
+
+void test_mapFind_will_return_NULL_when_specific_bucket_is_NULL()
+{
+	Map *map = mapNew(5);
+	void *returnedData;
+	Person *person = personNew("Ali",25,70.3);
+	
+	hash_ExpectAndReturn(person,3);
+	returnedData = mapFind(map, person, comparePerson,hash);
+	TEST_ASSERT_NULL(returnedData);
+}
+
+void test_mapFind_will_return_the_specific_object_in_the_map()
+{
+	Map *map = mapNew(5);
+	void *returnedData;
+	
+	Person *person = personNew("Ali",25,70.3);
+	
+	List *list = listNew(person,NULL);
+	map->bucket[3]=list;
+	hash_ExpectAndReturn(person,3);
+	comparePerson_ExpectAndReturn(person,person,1);
+	
+	returnedData = mapFind(map, person, comparePerson,hash);
+	TEST_ASSERT_NOT_NULL(returnedData);
+	TEST_ASSERT_EQUAL_Person(person,returnedData);
+	TEST_ASSERT_NULL(map->bucket[3]);
+	
+}
+
+void test_mapFind_will_return_NULL_when_the_person_is_not_inside_the_map()
+{
+	Map *map = mapNew(5);
+	void *returnedData;
+	Person *person = personNew("Ali",25,70.3);
+	Person *person2 = personNew("Zorro",25,70.3);
+	
+	List *list = listNew(person2,NULL);
+	map->bucket[3]=list;
+	
+	hash_ExpectAndReturn(person,3);
+	comparePerson_ExpectAndReturn(person2,person,0);
+
+	returnedData = mapFind(map, person, comparePerson,hash);
+	TEST_ASSERT_NULL(returnedData);
+}
+
+void test_mapFind_will_return_the_specific_object_when_the_object_is_being_at_location_2_onwards()
+{
+	Map *map = mapNew(5);
+	void *returnedData;
+	Person *person = personNew("Ali",25,70.3);
+	Person *person2 = personNew("Zorro",25,70.3);
+	
+	List *list = listNew(person,NULL);
+	List *list2 = listNew(person2,list);
+	map->bucket[3]=list2;
+	
+	hash_ExpectAndReturn(person,3);
+	comparePerson_ExpectAndReturn(person2,person,0);
+
+	returnedData = mapFind(map, person, comparePerson,hash);
+	TEST_ASSERT_NOT_NULL(returnedData);
+}

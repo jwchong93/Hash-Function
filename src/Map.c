@@ -35,7 +35,23 @@ void mapStore(Map *map, void *element, int (*compare)(void*,void*),unsigned int 
 	
 }
 
-void mapFind(Map *map, void *element, int (*compare)(void*,void*),unsigned int (*hash)(void*))
+void *mapFind(Map *map, void *element, int (*compare)(void*,void*),unsigned int (*hash)(void*))
 {
-	
+	int location;
+	location = hash(element);
+	void *elem=NULL;
+	if(map->bucket[location]!=NULL)
+	{
+		if(compare(((List*)map->bucket[location])->data,element)==1)
+		{
+			elem= ((List*)map->bucket[location])->data;
+			map->bucket[location]=((List*)map->bucket[location])->next;
+		}
+
+	}
+	else
+	{
+		elem=NULL;
+	}
+	return elem;
 }
