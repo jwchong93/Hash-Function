@@ -94,9 +94,10 @@ void test_mapFind_will_return_NULL_when_specific_bucket_is_NULL()
 	Map *map = mapNew(5);
 	void *returnedData;
 	Person *person = personNew("Ali",25,70.3);
+	Person *testPerson = personNew("Ali",0,0);
 	
-	hash_ExpectAndReturn(person,3);
-	returnedData = mapFind(map, person, comparePerson,hash);
+	hash_ExpectAndReturn(testPerson,3);
+	returnedData = mapFind(map, testPerson, comparePerson,hash);
 	TEST_ASSERT_NULL(returnedData);
 }
 /*
@@ -109,13 +110,14 @@ void test_mapFind_will_return_the_specific_object_in_the_map()
 	void *returnedData;
 	
 	Person *person = personNew("Ali",25,70.3);
+	Person *testPerson = personNew("Ali",0,0);
 	
 	List *list = listNew(person,NULL);
 	map->bucket[3]=list;
-	hash_ExpectAndReturn(person,3);
-	comparePerson_ExpectAndReturn(person,person,1);
+	hash_ExpectAndReturn(testPerson,3);
+	comparePerson_ExpectAndReturn(person,testPerson,1);
 	
-	returnedData = mapFind(map, person, comparePerson,hash);
+	returnedData = mapFind(map, testPerson, comparePerson,hash);
 	TEST_ASSERT_NOT_NULL(returnedData);
 	TEST_ASSERT_EQUAL_Person("Ali",25,70.3,returnedData);
 	
@@ -130,14 +132,15 @@ void test_mapFind_will_return_NULL_when_the_person_is_not_inside_the_map()
 	void *returnedData;
 	Person *person = personNew("Ali",25,70.3);
 	Person *person2 = personNew("Zorro",25,70.3);
+	Person *testPerson = personNew("Ali",0,0);
 	
 	List *list = listNew(person2,NULL);
 	map->bucket[3]=list;
 	
-	hash_ExpectAndReturn(person,3);
-	comparePerson_ExpectAndReturn(person2,person,0);
+	hash_ExpectAndReturn(testPerson ,3);
+	comparePerson_ExpectAndReturn(person2,testPerson ,0);
 
-	returnedData = mapFind(map, person, comparePerson,hash);
+	returnedData = mapFind(map, testPerson , comparePerson,hash);
 	TEST_ASSERT_NULL(returnedData);
 }
 /*
@@ -150,6 +153,7 @@ void test_mapFind_will_return_the_specific_object_when_the_object_is_being_at_lo
 	void *returnedData;
 	Person *person = personNew("Ali",25,70.3);
 	Person *person2 = personNew("Zorro",25,70.3);
+	Person *testPerson = personNew("Ali",0,0);
 	
 	/*
 		person2->person
@@ -158,11 +162,11 @@ void test_mapFind_will_return_the_specific_object_when_the_object_is_being_at_lo
 	List *list2 = listNew(person2,list);
 	map->bucket[3]=list2;
 	
-	hash_ExpectAndReturn(person,3);
-	comparePerson_ExpectAndReturn(person2,person,0);
-	comparePerson_ExpectAndReturn(person,person,1);
+	hash_ExpectAndReturn(testPerson,3);
+	comparePerson_ExpectAndReturn(person2,testPerson,0);
+	comparePerson_ExpectAndReturn(person,testPerson,1);
 
-	returnedData = mapFind(map, person, comparePerson,hash);
+	returnedData = mapFind(map, testPerson, comparePerson,hash);
 	TEST_ASSERT_NOT_NULL(returnedData);
 	TEST_ASSERT_EQUAL_Person("Ali",25,70.3,returnedData);
 }
@@ -176,9 +180,10 @@ void test_mapRemove_will_return_NULL_when_specific_bucket_is_NULL()
 	Map *map = mapNew(5);
 	void *returnedData;
 	Person *person = personNew("Ali",25,70.3);
+	Person *testPerson = personNew("Ali",0,0);
 	
-	hash_ExpectAndReturn(person,3);
-	returnedData = mapRemove(map, person, comparePerson,hash);
+	hash_ExpectAndReturn(testPerson,3);
+	returnedData = mapRemove(map, testPerson, comparePerson,hash);
 	TEST_ASSERT_NULL(returnedData);
 }
 /*
@@ -191,13 +196,14 @@ void test_mapRemove_will_return_the_specific_object_in_the_map()
 	void *returnedData;
 	
 	Person *person = personNew("Ali",25,70.3);
+	Person *testPerson = personNew("Ali",0,0);
 	
 	List *list = listNew(person,NULL);
 	map->bucket[3]=list;
-	hash_ExpectAndReturn(person,3);
-	comparePerson_ExpectAndReturn(person,person,1);
+	hash_ExpectAndReturn(testPerson,3);
+	comparePerson_ExpectAndReturn(person,testPerson,1);
 	
-	returnedData = mapRemove(map, person, comparePerson,hash);
+	returnedData = mapRemove(map, testPerson, comparePerson,hash);
 	TEST_ASSERT_NOT_NULL(returnedData);
 	TEST_ASSERT_EQUAL_Person("Ali",25,70.3,returnedData);
 	TEST_ASSERT_NULL(map->bucket[3]);
@@ -213,14 +219,15 @@ void test_mapRemove_will_return_NULL_when_the_person_is_not_inside_the_map()
 	void *returnedData;
 	Person *person = personNew("Ali",25,70.3);
 	Person *person2 = personNew("Zorro",25,70.3);
+	Person *testPerson = personNew("Ali",0,0);
 	
 	List *list = listNew(person2,NULL);
 	map->bucket[3]=list;
 	
-	hash_ExpectAndReturn(person,3);
-	comparePerson_ExpectAndReturn(person2,person,0);
+	hash_ExpectAndReturn(testPerson,3);
+	comparePerson_ExpectAndReturn(person2,testPerson,0);
 
-	returnedData = mapRemove(map, person, comparePerson,hash);
+	returnedData = mapRemove(map, testPerson, comparePerson,hash);
 	TEST_ASSERT_NULL(returnedData);
 }
 /*
@@ -233,6 +240,7 @@ void test_mapRemove_will_return_the_specific_object_when_the_object_is_being_at_
 	void *returnedData;
 	Person *person = personNew("Ali",25,70.3);
 	Person *person2 = personNew("Zorro",25,70.3);
+	Person *testPerson = personNew("Ali",0,0);
 	
 	/*
 		person2->person
@@ -241,11 +249,11 @@ void test_mapRemove_will_return_the_specific_object_when_the_object_is_being_at_
 	List *list2 = listNew(person2,list);
 	map->bucket[3]=list2;
 	
-	hash_ExpectAndReturn(person,3);
-	comparePerson_ExpectAndReturn(person2,person,0);
-	comparePerson_ExpectAndReturn(person,person,1);
+	hash_ExpectAndReturn(testPerson,3);
+	comparePerson_ExpectAndReturn(person2,testPerson,0);
+	comparePerson_ExpectAndReturn(person,testPerson,1);
 
-	returnedData = mapRemove(map, person, comparePerson,hash);
+	returnedData = mapRemove(map, testPerson, comparePerson,hash);
 	TEST_ASSERT_NOT_NULL(returnedData);
 	TEST_ASSERT_EQUAL_Person("Ali",25,70.3,returnedData);
 	TEST_ASSERT_NOT_NULL(map->bucket[3]);
@@ -263,6 +271,7 @@ void test_mapRemove_will_return_the_specific_object_for_object_being_in_the_firs
 	void *returnedData;
 	Person *person = personNew("Ali",25,70.3);
 	Person *person2 = personNew("Zorro",25,70.3);
+	Person *testPerson = personNew("Ali",0,0);
 	/*
 		person->person2
 	*/
@@ -270,10 +279,10 @@ void test_mapRemove_will_return_the_specific_object_for_object_being_in_the_firs
 	List *list2 = listNew(person,list);
 	map->bucket[3]=list2;
 	
-	hash_ExpectAndReturn(person,3);
-	comparePerson_ExpectAndReturn(person,person,1);
+	hash_ExpectAndReturn(testPerson,3);
+	comparePerson_ExpectAndReturn(person,testPerson,1);
 
-	returnedData = mapRemove(map, person, comparePerson,hash);
+	returnedData = mapRemove(map, testPerson, comparePerson,hash);
 	TEST_ASSERT_NOT_NULL(returnedData);
 	TEST_ASSERT_EQUAL_Person("Ali",25,70.3,returnedData);
 	TEST_ASSERT_NOT_NULL(map->bucket[3]);
@@ -295,6 +304,7 @@ void test_mapRemove_will_return_the_specific_object_which_being_in_between_two_l
 	Person *person = personNew("Zorro",25,70.3);
 	Person *person2 = personNew("Ali",25,70.3);
 	Person *person3 = personNew("Kevin",25,70.3);
+	Person *testPerson = personNew("Ali",0,0);
 	/*
 		person->person2
 	*/
@@ -303,11 +313,11 @@ void test_mapRemove_will_return_the_specific_object_which_being_in_between_two_l
 	List *list3 = listNew(person,list2);
 	map->bucket[3]=list3;
 	
-	hash_ExpectAndReturn(person2,3);
-	comparePerson_ExpectAndReturn(person,person2,0);
-	comparePerson_ExpectAndReturn(person2,person2,1);
+	hash_ExpectAndReturn(testPerson,3);
+	comparePerson_ExpectAndReturn(person,testPerson,0);
+	comparePerson_ExpectAndReturn(person2,testPerson,1);
 
-	returnedData = mapRemove(map, person2, comparePerson,hash);
+	returnedData = mapRemove(map, testPerson, comparePerson,hash);
 	TEST_ASSERT_NOT_NULL(returnedData);
 	TEST_ASSERT_EQUAL_Person("Ali",25,70.3,returnedData);
 	TEST_ASSERT_NOT_NULL(map->bucket[3]);
