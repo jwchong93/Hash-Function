@@ -85,6 +85,10 @@ void test_mapStore_given_Zorro_should_add_it_to_map_when_ali_was_inside_the_map_
 }
 
 //************************************************************************
+/*
+	Given Ali and Ali is not in the map 
+	return NULL
+*/
 void test_mapFind_will_return_NULL_when_specific_bucket_is_NULL()
 {
 	Map *map = mapNew(5);
@@ -95,7 +99,10 @@ void test_mapFind_will_return_NULL_when_specific_bucket_is_NULL()
 	returnedData = mapFind(map, person, comparePerson,hash);
 	TEST_ASSERT_NULL(returnedData);
 }
-
+/*
+	Given Ali and Ali is in the map 
+	return Ali Object
+*/
 void test_mapFind_will_return_the_specific_object_in_the_map()
 {
 	Map *map = mapNew(5);
@@ -113,7 +120,10 @@ void test_mapFind_will_return_the_specific_object_in_the_map()
 	TEST_ASSERT_EQUAL_Person("Ali",25,70.3,returnedData);
 	
 }
-
+/*
+	Given Ali and Ali is not in the linked list(Not the first location)
+	return NULL
+*/
 void test_mapFind_will_return_NULL_when_the_person_is_not_inside_the_map()
 {
 	Map *map = mapNew(5);
@@ -130,7 +140,10 @@ void test_mapFind_will_return_NULL_when_the_person_is_not_inside_the_map()
 	returnedData = mapFind(map, person, comparePerson,hash);
 	TEST_ASSERT_NULL(returnedData);
 }
-
+/*
+	Given Ali and Ali is in the linked list 
+	return Ali object
+*/
 void test_mapFind_will_return_the_specific_object_when_the_object_is_being_at_location_2_onwards()
 {
 	Map *map = mapNew(5);
@@ -154,7 +167,10 @@ void test_mapFind_will_return_the_specific_object_when_the_object_is_being_at_lo
 	TEST_ASSERT_EQUAL_Person("Ali",25,70.3,returnedData);
 }
 //************************************************************************
-
+/*
+	Given Ali and Ali is not in the map 
+	return NULL
+*/
 void test_mapRemove_will_return_NULL_when_specific_bucket_is_NULL()
 {
 	Map *map = mapNew(5);
@@ -165,7 +181,10 @@ void test_mapRemove_will_return_NULL_when_specific_bucket_is_NULL()
 	returnedData = mapRemove(map, person, comparePerson,hash);
 	TEST_ASSERT_NULL(returnedData);
 }
-
+/*
+	Given Ali and Ali is in the map 
+	return Ali Object
+*/
 void test_mapRemove_will_return_the_specific_object_in_the_map()
 {
 	Map *map = mapNew(5);
@@ -184,7 +203,10 @@ void test_mapRemove_will_return_the_specific_object_in_the_map()
 	TEST_ASSERT_NULL(map->bucket[3]);
 	
 }
-
+/*
+	Given Ali and Ali is not in the linked list(Not the first location)
+	return NULL
+*/
 void test_mapRemove_will_return_NULL_when_the_person_is_not_inside_the_map()
 {
 	Map *map = mapNew(5);
@@ -201,7 +223,10 @@ void test_mapRemove_will_return_NULL_when_the_person_is_not_inside_the_map()
 	returnedData = mapRemove(map, person, comparePerson,hash);
 	TEST_ASSERT_NULL(returnedData);
 }
-
+/*
+	Given Ali and Ali is in the linked list <- At location 2 onward
+	return Ali object
+*/
 void test_mapRemove_will_return_the_specific_object_when_the_object_is_being_at_location_2_onwards()
 {
 	Map *map = mapNew(5);
@@ -228,6 +253,10 @@ void test_mapRemove_will_return_the_specific_object_when_the_object_is_being_at_
 	TEST_ASSERT_NULL(((List*)(map->bucket[3]))->next);
 }
 
+/*
+	Given Ali and Ali is in the linked list <- at the first location 
+	return Ali object
+*/
 void test_mapRemove_will_return_the_specific_object_for_object_being_in_the_first_location()
 {
 	Map *map = mapNew(5);
@@ -252,7 +281,13 @@ void test_mapRemove_will_return_the_specific_object_for_object_being_in_the_firs
 	TEST_ASSERT_NULL(((List*)(map->bucket[3]))->next);
 	
 }
-
+/*
+	Given Ali and Ali is in the linked list <- between two list 
+	
+	Zorro->Ali->Kevin
+	
+	return Ali object
+*/
 void test_mapRemove_will_return_the_specific_object_which_being_in_between_two_lists()
 {
 	Map *map = mapNew(5);
