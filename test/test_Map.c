@@ -148,4 +148,13 @@ void test_mapFind_will_return_the_specific_object_when_the_object_is_being_at_lo
 
 	returnedData = mapFind(map, person, comparePerson,hash);
 	TEST_ASSERT_NOT_NULL(returnedData);
+	TEST_ASSERT_EQUAL_Person(person,returnedData);
+	TEST_ASSERT_NOT_NULL(map->bucket[3]);
+	TEST_ASSERT_EQUAL_Person(person2,getPersonFromBucket(map->bucket[3]));
+	TEST_ASSERT_NULL(((List*)(map->bucket[3]))->next);
+}
+
+void test_mapFind_will_return_the_specific_object_for_object_being_in_the-first_location()
+{
+	
 }
