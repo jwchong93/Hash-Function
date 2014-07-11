@@ -40,18 +40,30 @@ void *mapFind(Map *map, void *element, int (*compare)(void*,void*),unsigned int 
 	int location;
 	location = hash(element);
 	void *elem=NULL;
-	if(map->bucket[location]!=NULL)
+	List *tempList=(List*)map->bucket[location];
+	List *previousList=NULL;
+	while(tempList!=NULL)
 	{
-		if(compare(((List*)map->bucket[location])->data,element)==1)
+		
+		if(compare(tempList->data,element)==1)
 		{
-			elem= ((List*)map->bucket[location])->data;
-			map->bucket[location]=((List*)map->bucket[location])->next;
+			elem = tempList->data;
+			if(previousList==NULL)
+			{
+				map->bucket[location]=((List*)map->bucket[location])->next;
+			}
+			else
+			{
+				previousList->next=tempList->next;
+			}
 		}
+		previousList=tempList;
+		tempList=tempList->next;
 
 	}
-	else
-	{
-		elem=NULL;
-	}
+	// else
+	// {
+		// elem=NULL;
+	// }
 	return elem;
 }

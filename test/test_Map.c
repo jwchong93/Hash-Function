@@ -144,6 +144,7 @@ void test_mapFind_will_return_the_specific_object_when_the_object_is_being_at_lo
 	
 	hash_ExpectAndReturn(person,3);
 	comparePerson_ExpectAndReturn(person2,person,0);
+	comparePerson_ExpectAndReturn(person,person,1);
 
 	returnedData = mapFind(map, person, comparePerson,hash);
 	TEST_ASSERT_NOT_NULL(returnedData);
