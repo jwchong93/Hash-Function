@@ -65,3 +65,21 @@ void test_mapStore_given_Ali_but_Ali_is_in_the_Map_should_throw_ERR_SAME_ELEMENT
 		TEST_ASSERT_EQUAL_Person(person,getPersonFromBucket(map->bucket[3]));
 	}
 }
+
+void test_mapStore_given_Zorro_should_add_it_to_map_when_ali_was_inside_the_map_with_same_value()
+{
+	Map *map = mapNew(5);
+	Person *person = personNew("Ali",25,70.3);
+	Person *person2 = personNew("Zorro",30,65.2);
+	
+	hash_ExpectAndReturn(person,3);
+	hash_ExpectAndReturn(person2,3);
+	comparePerson_ExpectAndReturn(person,person2,0);
+	
+	mapStore(map,person,comparePerson,hash);
+	mapStore(map,person2,comparePerson,hash);
+	TEST_ASSERT_NOT_NULL(map->bucket[3]);
+	TEST_ASSERT_EQUAL_Person(person2,getPersonFromBucket(map->bucket[3]));
+	TEST_ASSERT_EQUAL_Person(person,getPersonFromBucket(((List*)map->bucket[3])->next));
+
+}

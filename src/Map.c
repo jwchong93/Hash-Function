@@ -14,6 +14,7 @@ Map *mapNew(int length)
 void mapStore(Map *map, void *element, int (*compare)(void*,void*),unsigned int (*hash)(void*))
 {
 	int location;
+	List *newList;
 	location = hash(element);
 	if(map->bucket[location]!=NULL)
 	{
@@ -21,8 +22,15 @@ void mapStore(Map *map, void *element, int (*compare)(void*,void*),unsigned int 
 		{
 			Throw(ERR_SAME_ELEMENT);
 		}
+		else
+		{
+			newList = listNew(element,map->bucket[location]);
+		}
 	}
-	List *newList = listNew(element,NULL);
+	else
+	{
+		newList = listNew(element,NULL);
+	}
 	map->bucket[location]= newList;
 	
 }
