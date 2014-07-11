@@ -138,6 +138,9 @@ void test_mapFind_will_return_the_specific_object_when_the_object_is_being_at_lo
 	Person *person = personNew("Ali",25,70.3);
 	Person *person2 = personNew("Zorro",25,70.3);
 	
+	/*
+		person2->person
+	*/
 	List *list = listNew(person,NULL);
 	List *list2 = listNew(person2,list);
 	map->bucket[3]=list2;
@@ -154,7 +157,27 @@ void test_mapFind_will_return_the_specific_object_when_the_object_is_being_at_lo
 	TEST_ASSERT_NULL(((List*)(map->bucket[3]))->next);
 }
 
-void test_mapFind_will_return_the_specific_object_for_object_being_in_the-first_location()
+void test_mapFind_will_return_the_specific_object_for_object_being_in_the_first_location()
 {
+	Map *map = mapNew(5);
+	void *returnedData;
+	Person *person = personNew("Ali",25,70.3);
+	Person *person2 = personNew("Zorro",25,70.3);
+	/*
+		person->person2
+	*/
+	List *list = listNew(person2,NULL);
+	List *list2 = listNew(person,list);
+	map->bucket[3]=list2;
+	
+	hash_ExpectAndReturn(person,3);
+	comparePerson_ExpectAndReturn(person,person,1);
+
+	returnedData = mapFind(map, person, comparePerson,hash);
+	TEST_ASSERT_NOT_NULL(returnedData);
+	TEST_ASSERT_EQUAL_Person(person,returnedData);
+	TEST_ASSERT_NOT_NULL(map->bucket[3]);
+	TEST_ASSERT_EQUAL_Person(person2,getPersonFromBucket(map->bucket[3]));
+	TEST_ASSERT_NULL(((List*)(map->bucket[3]))->next);
 	
 }

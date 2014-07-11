@@ -56,6 +56,7 @@ void *mapFind(Map *map, void *element, int (*compare)(void*,void*),unsigned int 
 			{
 				previousList->next=tempList->next;
 			}
+			break;
 		}
 		previousList=tempList;
 		tempList=tempList->next;
