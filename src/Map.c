@@ -35,7 +35,7 @@ void mapStore(Map *map, void *element, int (*compare)(void*,void*),unsigned int 
 	
 }
 
-void *mapFind(Map *map, void *element, int (*compare)(void*,void*),unsigned int (*hash)(void*))
+void *mapRemove(Map *map, void *element, int (*compare)(void*,void*),unsigned int (*hash)(void*))
 {
 	int location;
 	location = hash(element);
