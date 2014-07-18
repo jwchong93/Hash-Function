@@ -22,4 +22,5 @@ void * mapFind(Map *map, void *element, int (*compare)(void*,void*),unsigned int
 //Linear mode functions.
 void mapLinearStore(Map *map, void *element, int (*copmpare)(void*,void*),unsigned int (*hash)(void*));
 void * mapLinearFind(Map *map, void *element, int (*compare)(void*,void*),unsigned int (*hash)(void*));
+void *mapLinearRemove(Map *map, void *element, int (*compare)(void*,void*),unsigned int (*hash)(void*));
 #endif // Map_H

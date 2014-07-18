@@ -121,7 +121,57 @@ void mapLinearStore(Map *map, void *element, int (*copmpare)(void*,void*),unsign
 
 void * mapLinearFind(Map *map, void *element, int (*compare)(void*,void*),unsigned int (*hash)(void*))
 {
-	
+	int location;
+	location = hash(element);
+	void *elem=NULL;
+	while(map->bucket[location]!=NULL)
+	{
+		
+		if(compare(map->bucket[location],element)==1)
+		{
+			elem = map->bucket[location];
+			break;
+		}
+		location++;
+		if(location>=map->length)
+		{
+			break;
+		}
+
+	}
+	return elem;
+}
+
+void *mapLinearRemove(Map *map, void *element, int (*compare)(void*,void*),unsigned int (*hash)(void*))
+{
+	int location;
+	location = hash(element);
+	void *elem=NULL;
+	while(map->bucket[location]!=NULL)
+	{
+		
+		if(compare(map->bucket[location],element)==1)
+		{
+			elem = map->bucket[location];
+			if(hash(map->bucket[location+1])==location)
+			{
+				map->bucket[location]=(void*)-1;
+			}
+			else
+			{
+				map->bucket[location]=(void*)0;
+			}
+			
+			break;
+		}
+		location++;
+		if(location>=map->length)
+		{
+			break;
+		}
+
+	}
+	return elem;
 }
 
 

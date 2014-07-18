@@ -11,7 +11,6 @@ struct Person
 	
 };
 
-
 Person * personNew(char *name,int age ,float weight);
 void personDump(void *data);
 #endif // Person_H
