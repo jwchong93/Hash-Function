@@ -32,6 +32,7 @@ void mapStore(Map *map, void *element, int (*compare)(void*,void*),unsigned int 
 		newList = listNew(element,NULL);
 	}
 	map->bucket[location]= newList;
+	map->size++;
 	
 }
 
@@ -88,3 +89,49 @@ void *mapFind(Map *map, void *element, int (*compare)(void*,void*),unsigned int 
 	// }
 	return elem;
 }
+
+void mapLinearStore(Map *map, void *element, int (*copmpare)(void*,void*),unsigned int (*hash)(void*))
+{
+	int location;
+	List *newList;
+	location = hash(element);
+	if(map->bucket[location]!=NULL)
+	{
+		while(map->bucket[location]!=NULL)
+		{
+			location++;
+		}
+		if(location>=map->length)
+		{
+			Throw(ERR_OUT_OF_BOUND);
+		}
+		
+	}
+	map->bucket[location]=element;
+	map->size++;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
