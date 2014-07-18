@@ -30,9 +30,10 @@ void mapStore(Map *map, void *element, int (*compare)(void*,void*),unsigned int 
 	else
 	{
 		newList = listNew(element,NULL);
+		map->size++;
 	}
 	map->bucket[location]= newList;
-	map->size++;
+	
 	
 }
 
@@ -57,6 +58,8 @@ void *mapRemove(Map *map, void *element, int (*compare)(void*,void*),unsigned in
 			{
 				previousList->next=tempList->next;
 			}
+			if(map->bucket[location]==NULL)
+			map->size--;
 			break;
 		}
 		previousList=tempList;
@@ -89,6 +92,11 @@ void *mapFind(Map *map, void *element, int (*compare)(void*,void*),unsigned int 
 	// }
 	return elem;
 }
+/*********************************************************************************************************
+				LINEAR MODE
+				
+				
+**********************************************************************************************************/
 
 void mapLinearStore(Map *map, void *element, int (*copmpare)(void*,void*),unsigned int (*hash)(void*))
 {
@@ -111,7 +119,10 @@ void mapLinearStore(Map *map, void *element, int (*copmpare)(void*,void*),unsign
 	map->size++;
 }
 
-
+void * mapLinearFind(Map *map, void *element, int (*compare)(void*,void*),unsigned int (*hash)(void*))
+{
+	
+}
 
 
 
