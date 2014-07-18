@@ -126,6 +126,10 @@ void * mapLinearFind(Map *map, void *element, int (*compare)(void*,void*),unsign
 	void *elem=NULL;
 	while(map->bucket[location]!=NULL)
 	{
+		if(map->bucket[location]==(void*)-1)
+		{
+			location++;
+		}
 		
 		if(compare(map->bucket[location],element)==1)
 		{
@@ -170,7 +174,7 @@ void *mapLinearRemove(Map *map, void *element, int (*compare)(void*,void*),unsig
 				{
 					map->bucket[location]=(void*)0;
 					location--;
-					if(location==has_Number)
+					if(location>hash_Number)
 					{
 						break;
 					}
