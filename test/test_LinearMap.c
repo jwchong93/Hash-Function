@@ -134,6 +134,7 @@ void test_mapLinearFind_will_return_ali_when_ali_being_in_the_bucket()
 	TEST_ASSERT_NOT_NULL(returnedData);
 	TEST_ASSERT_EQUAL_Person("Ali",25,70.3,returnedData);
 	TEST_ASSERT_NOT_NULL(map->bucket[3]);
+	TEST_ASSERT_EQUAL(1,map->size);
 }
 
 void test_mapLinearFind_will_return_ali_when_ali_in_the_next_location_of_the_bucket()
@@ -155,6 +156,7 @@ void test_mapLinearFind_will_return_ali_when_ali_in_the_next_location_of_the_buc
 	TEST_ASSERT_NOT_NULL(returnedData);
 	TEST_ASSERT_EQUAL_Person("Ali",25,70.3,returnedData);
 	TEST_ASSERT_NOT_NULL(map->bucket[4]);
+	TEST_ASSERT_EQUAL(2,map->size);
 }
 
 void test_mapLinearFind_will_return_ali_when_ali_is_next_next_location_of_the_hash_number()
@@ -179,6 +181,7 @@ void test_mapLinearFind_will_return_ali_when_ali_is_next_next_location_of_the_ha
 	TEST_ASSERT_NOT_NULL(returnedData);
 	TEST_ASSERT_EQUAL_Person("Ali",25,70.3,returnedData);
 	TEST_ASSERT_NOT_NULL(map->bucket[5]);
+	TEST_ASSERT_EQUAL(3,map->size);
 }
 
 
@@ -199,6 +202,7 @@ void test_mapLinearFind_will_return_NULL_when_ali_was_not_inside_the_bucket_but_
 	comparePerson_ExpectAndReturn(person2,testPerson,0);
 	returnedData = mapLinearFind(map, testPerson, comparePerson,hash);
 	TEST_ASSERT_NULL(returnedData);
+	TEST_ASSERT_EQUAL(3,map->size);
 }
 
 void test_mapLinearRemove_will_return_NULL_when_ali_was_not_inside_the_bucket()
@@ -224,13 +228,14 @@ void test_mapLinearRemove_will_return_NULL_when_ali_was_not_inside_the_bucket_bu
 	
 	map->bucket[3]=person;
 	map->bucket[4]=person2;
-	map->size+=3;
+	map->size+=2;
 	
 	hash_ExpectAndReturn(testPerson,3);
 	comparePerson_ExpectAndReturn(person,testPerson,0);
 	comparePerson_ExpectAndReturn(person2,testPerson,0);
-	returnedData = mapLinearFind(map, testPerson, comparePerson,hash);
+	returnedData = mapLinearRemove(map, testPerson, comparePerson,hash);
 	TEST_ASSERT_NULL(returnedData);
+	TEST_ASSERT_EQUAL(2,map->size);
 }
 
 void test_mapLinearRemove_will_return_ali_when_ali_being_in_the_bucket()
@@ -245,13 +250,100 @@ void test_mapLinearRemove_will_return_ali_when_ali_being_in_the_bucket()
 	
 	hash_ExpectAndReturn(testPerson,3);
 	comparePerson_ExpectAndReturn(person,testPerson,1);
-	returnedData = mapLinearFind(map, testPerson, comparePerson,hash);
+	hash_ExpectAndReturn(NULL,0);
+	returnedData = mapLinearRemove(map, testPerson, comparePerson,hash);
 	TEST_ASSERT_NOT_NULL(returnedData);
 	TEST_ASSERT_EQUAL_Person("Ali",25,70.3,returnedData);
-	TEST_ASSERT_EQUAL(0,map->bucket[3]);
+	TEST_ASSERT_NULL(map->bucket[3]);
+	TEST_ASSERT_EQUAL(0,map->size);
 }
 
+void test_mapLinearRemove_will_return_ali_when_ali_being_in_between_of_two_elements()
+{
+	Map *map = mapNew(5);
+	void *returnedData;
+	Person *person2 = personNew("Ali",25,70.3);
+	Person *person = personNew("Muthu",40,56.3);
+	Person *person3 = personNew("Zorro",35,79.3);
+	Person *testPerson = personNew("Ali",0,0);
+	
+	map->bucket[3]=person;
+	map->bucket[4]=person2;
+	map->bucket[5]=person3;
+	map->size+=3;
+	
+	hash_ExpectAndReturn(testPerson,3);
+	comparePerson_ExpectAndReturn(person,testPerson,0);
+	comparePerson_ExpectAndReturn(person2,testPerson,1);
+	hash_ExpectAndReturn(person3,3);
+	returnedData = mapLinearRemove(map, testPerson, comparePerson,hash);
+	TEST_ASSERT_NOT_NULL(returnedData);
+	TEST_ASSERT_EQUAL_Person("Ali",25,70.3,returnedData);
+	
+	TEST_ASSERT_EQUAL_Person("Muthu",40,56.3,map->bucket[3]);
+	TEST_ASSERT_EQUAL(-1,map->bucket[4]);
+	TEST_ASSERT_EQUAL_Person("Zorro",35,79.3,map->bucket[5]);
+	TEST_ASSERT_EQUAL(2,map->size);
+}
 
+void test_mapLinearRemove_will_continue_find_the_next_element_when_found_negative_one_in_the_bucket()
+{
+
+	Map *map = mapNew(10);
+	void *returnedData;
+	Person *person2 = personNew("Ali",25,70.3);
+	Person *person = personNew("Muthu",40,56.3);
+	Person *testPerson = personNew("Ali",0,0);
+	
+	map->bucket[3]=(void*)-1;
+	map->bucket[4]=person;
+	map->bucket[5]=person2;
+	map->size+=2;
+	
+	hash_ExpectAndReturn(testPerson,3);
+	comparePerson_ExpectAndReturn(person,testPerson,0);
+	comparePerson_ExpectAndReturn(person2,testPerson,1);
+	hash_ExpectAndReturn(NULL,0);
+	returnedData = mapLinearRemove(map, testPerson, comparePerson,hash);
+	TEST_ASSERT_NOT_NULL(returnedData);
+	TEST_ASSERT_EQUAL_Person("Ali",25,70.3,returnedData);
+	
+	
+	TEST_ASSERT_EQUAL(-1,map->bucket[3]);
+	TEST_ASSERT_EQUAL_Person("Muthu",40,56.3,map->bucket[4]);
+	TEST_ASSERT_EQUAL(0,map->bucket[5]);
+	TEST_ASSERT_EQUAL(1,map->size);
+	
+	
+}
+
+void test_mapLinearRemove_will_remove_the_element_when_the_element_being_at_the_last()
+{
+
+	Map *map = mapNew(10);
+	void *returnedData;
+	Person *person2 = personNew("Ali",25,70.3);
+	Person *person = personNew("Muthu",40,56.3);
+	Person *testPerson = personNew("Ali",0,0);
+	
+	map->bucket[3]=person;
+	map->bucket[4]=(void*)-1;
+	map->bucket[5]=person2;
+	map->size+=2;
+	
+	hash_ExpectAndReturn(testPerson,3);
+	comparePerson_ExpectAndReturn(person,testPerson,0);
+	comparePerson_ExpectAndReturn(person2,testPerson,1);
+	hash_ExpectAndReturn(NULL,0);
+	returnedData = mapLinearRemove(map, testPerson, comparePerson,hash);
+	TEST_ASSERT_NOT_NULL(returnedData);
+	TEST_ASSERT_EQUAL_Person("Ali",25,70.3,returnedData);
+	
+	TEST_ASSERT_EQUAL_Person("Muthu",40,56.3,map->bucket[3]);
+	TEST_ASSERT_EQUAL(0,map->bucket[4]);
+	TEST_ASSERT_EQUAL(0,map->bucket[5]);
+	TEST_ASSERT_EQUAL(1,map->size);
+}
 
 
 

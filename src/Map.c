@@ -144,24 +144,39 @@ void * mapLinearFind(Map *map, void *element, int (*compare)(void*,void*),unsign
 
 void *mapLinearRemove(Map *map, void *element, int (*compare)(void*,void*),unsigned int (*hash)(void*))
 {
-	int location;
+	int location,temp,hash_Number;
 	location = hash(element);
+	hash_Number=location;
 	void *elem=NULL;
 	while(map->bucket[location]!=NULL)
 	{
+		if(map->bucket[location]==(void*)-1)
+		{
+			location++;
+		}
 		
 		if(compare(map->bucket[location],element)==1)
 		{
 			elem = map->bucket[location];
-			if(hash(map->bucket[location+1])==location)
+			if(hash(map->bucket[location+1])==hash_Number)
 			{
 				map->bucket[location]=(void*)-1;
 			}
 			else
 			{
 				map->bucket[location]=(void*)0;
+				location--;
+				while(map->bucket[location]==(void*)-1)
+				{
+					map->bucket[location]=(void*)0;
+					location--;
+					if(location==has_Number)
+					{
+						break;
+					}
+				}
 			}
-			
+			map->size--;
 			break;
 		}
 		location++;
